@@ -23,8 +23,9 @@ class System {
  private:
     Processor cpu_ = {};
     std::vector<Process> processes_ = {};
-    std::string kernel {};
-    std::string operating_system {};
+    std::string kernel {"-"};
+    std::string operating_system {"-"};
+    long uptime {0};
 };
 
 #endif
