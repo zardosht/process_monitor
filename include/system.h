@@ -26,6 +26,8 @@ class System {
     std::string kernel {"-"};
     std::string operating_system {"-"};
     long uptime {0};
+    int total_processes {0};
+    int running_processes {0};
 };
 
 #endif
