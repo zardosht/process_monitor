@@ -28,6 +28,7 @@ class System {
     long uptime {0};
     int total_processes {0};
     int running_processes {0};
+    double mem_utilization {0.0};
 };
 
 #endif
