@@ -8,6 +8,8 @@ It contains relevant attributes as shown below
 */
 class Process {
  public:
+   Process(int pid);
+
     std::string User();                      
     std::string Command();                   
     float CpuUtilization();                  
@@ -17,7 +19,9 @@ class Process {
     bool operator<(Process const& a) const;  
 
  private:
-    
+    int pid {-1};
+    long uptime {0};
+
 };
 
 #endif

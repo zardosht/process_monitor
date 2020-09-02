@@ -21,7 +21,7 @@ class System {
     std::string OperatingSystem();      
 
  private:
-    Processor cpu_ = {};
+    Processor cpu_;
     std::vector<Process> processes_ = {};
     std::string kernel {"-"};
     std::string operating_system {"-"};
