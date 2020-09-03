@@ -27,6 +27,8 @@ class Process {
     float cpu_usage {0};
     std::string cmd {""};
     float ram_usage {0};
+    std::string uid {""};
+    std::string user {""};
 };
 
 #endif

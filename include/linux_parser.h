@@ -50,7 +50,7 @@ std::vector<long> CpuUtilization();
 std::string Command(int pid);
 float Ram(int pid);
 std::string Uid(int pid);
-std::string User(int pid);
+std::string User(std::string uid);
 std::vector<long> CpuUtilization(int pid);
 };  // namespace LinuxParser
 

@@ -69,8 +69,14 @@ string Process::Ram() {
     return oss.str();
 }
 
-// TODO: Return the user (name) that generated this process
-string Process::User() { return string(); }
+// Return the user (name) that generated this process
+string Process::User() { 
+    if(this->uid.compare("") == 0) {
+        this->uid = LinuxParser::Uid(pid);
+        this->user = LinuxParser::User(this->uid);
+    }
+    return this->user; 
+}
 
 // Return the age of this process (in seconds)
 long int Process::UpTime() { 
