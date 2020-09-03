@@ -199,8 +199,20 @@ long LinuxParser::UpTime(int pid[[maybe_unused]]) {
 
 
 // TODO: Read and return the command associated with a process
-// REMOVE: [[maybe_unused]] once you define the function
-string LinuxParser::Command(int pid[[maybe_unused]]) { return string(); }
+string LinuxParser::Command(int pid) { 
+  string cmd {NO_CMD};
+  std::ifstream stream(kProcDirectory + to_string(pid) + kCmdlineFilename);
+  if(stream.is_open()) {
+    string line;
+    getline(stream, line);
+    if (line.size() == 0) {
+      return cmd;
+    }
+    std::istringstream linestream(line);
+    linestream >> cmd;
+  }
+  return cmd; 
+}
 
 // TODO: Read and return the memory used by a process
 // REMOVE: [[maybe_unused]] once you define the function

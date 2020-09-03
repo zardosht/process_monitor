@@ -39,37 +39,24 @@ float Process::UpdateCpuUtilization() {
     vector<long> values = LinuxParser::CpuUtilization(pid);
     long sys_uptime = LinuxParser::UpTime();
     float clock = sysconf(_SC_CLK_TCK);
-    this->uptime = sys_uptime - (values[4] / clock); 
+    if ((values[4] / clock) > sys_uptime) {
+        this->uptime = sys_uptime;
+    } else {
+        this->uptime = sys_uptime - (values[4] / clock); 
+    }
 
     long total_time = values[0] + values[1] + values[2] + values[3];
     this->cpu_usage = (total_time / clock) / (float)this->uptime;
-
-    this->cpu_times = values;
     return this->cpu_usage;
-
-
-// First we determine the total time spent for the process:
-
-// total_time = utime + stime
-// We also have to decide whether we want to include the time from children processes. If we do, then we add those values to total_time:
-
-// total_time = total_time + cutime + cstime
-// Next we get the total elapsed time in seconds since the process started:
-
-// seconds = uptime - (starttime / Hertz)
-// Finally we calculate the CPU usage percentage:
-
-// cpu_usage = 100 * ((total_time / Hertz) / seconds)
-
-
-
-    // long total_time = deltas[0] + deltas[1] + deltas[2] + deltas[3];  // utime + stime + cutime + cstime;
-    // long clock_ticks_per_second = sysconf(_SC_CLK_TCK);
-    // this->cpu_usage = total_time / (float)clock_ticks_per_second;
 }
 
-// TODO: Return the command that generated this process
-string Process::Command() { return string(); }
+// Return the command that generated this process
+string Process::Command() { 
+    if(this->cmd.compare("") == 0) {
+        this->cmd = LinuxParser::Command(pid); 
+    }
+    return this->cmd;
+}
 
 // TODO: Return this process's memory utilization
 string Process::Ram() { return string(); }
@@ -84,7 +71,8 @@ long int Process::UpTime() {
 
 // Overload the "less than" comparison operator for Process objects
 bool Process::operator<(Process const& a) const { 
-    return this->cpu_usage < a.cpu_usage; 
+    // return this->pid < a.pid; 
+    return this->cpu_usage < a.cpu_usage;
 }
 
 bool Process::comp(Process& p1, Process& p2) {

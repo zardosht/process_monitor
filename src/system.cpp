@@ -38,6 +38,7 @@ vector<Process>& System::Processes() {
         if (new_proc) {
             Process process(pid);
             process.UpdateCpuUtilization();
+            process.Command();
             processes_.push_back(process);   
         }
         
@@ -55,8 +56,12 @@ vector<Process>& System::Processes() {
         }
     }
 
-    for (auto proc : processes_) {
-        proc.UpdateCpuUtilization();
+    for (auto iter = processes_.begin(); iter != processes_.end(); iter++) {
+        (*iter).UpdateCpuUtilization();
+        // remove all processes that do not have command
+        if((*iter).Command().compare(LinuxParser::NO_CMD) == 0) {
+            processes_.erase(iter--);
+        }
     }
 
     std::sort(processes_.begin(), processes_.end(), Process::comp);

@@ -25,8 +25,7 @@ class Process {
     int pid {-1};
     long uptime {0};
     float cpu_usage {0};
-    std::vector<long> cpu_times {0, 0, 0, 0, 0};
-
+    std::string cmd {""};
 };
 
 #endif
