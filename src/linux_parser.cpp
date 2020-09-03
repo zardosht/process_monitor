@@ -160,6 +160,36 @@ int LinuxParser::RunningProcesses() {
 }
 
 
+std::vector<long> LinuxParser::CpuUtilization(int pid) {
+  // /proc/[PID]/stat
+  // #14 utime - CPU time spent in user code, measured in clock ticks
+  // #15 stime - CPU time spent in kernel code, measured in clock ticks
+  // #16 cutime - Waited-for children's CPU time spent in user code (in clock ticks)
+  // #17 cstime - Waited-for children's CPU time spent in kernel code (in clock ticks)
+  // #22 starttime - Time when the process started, measured in clock ticks
+
+  vector<long> values;
+  std::ifstream stream(kProcDirectory + to_string(pid) + kStatFilename);
+  if(stream.is_open()) {
+    string line;
+    getline(stream, line);
+    std::istringstream linestream(line);
+    long value; 
+    string dummy;
+    linestream >> value >> dummy >> dummy;
+    for (int i = 1; i < 23; i++) {
+      linestream >> value;
+      if(i == 14 || i == 15 || i == 16 || i == 17 || i == 22) {
+        values.push_back(value);
+      }
+    }
+  }
+  while(values.size() < 5) {
+    values.push_back(0);
+  }
+  return values;
+}
+
 // Read and return the uptime of a process
 // REMOVE: [[maybe_unused]] once you define the function
 long LinuxParser::UpTime(int pid[[maybe_unused]]) { 

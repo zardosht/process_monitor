@@ -2,6 +2,7 @@
 #define PROCESS_H
 
 #include <string>
+#include <vector>
 /*
 Basic class for Process representation
 It contains relevant attributes as shown below
@@ -13,14 +14,18 @@ class Process {
     std::string User();                      
     std::string Command();                   
     float CpuUtilization();                  
+    float UpdateCpuUtilization();                  
     std::string Ram();                       
     int Pid();                               
     long int UpTime();                       
     bool operator<(Process const& a) const;  
+    static bool comp(Process& p1, Process& p2);
 
  private:
     int pid {-1};
     long uptime {0};
+    float cpu_usage {0};
+    std::vector<long> cpu_times {0, 0, 0, 0, 0};
 
 };
 
