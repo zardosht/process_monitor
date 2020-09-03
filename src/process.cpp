@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <unistd.h>
+#include <iomanip>
 
 #include "process.h"
 #include "linux_parser.h"
@@ -58,8 +59,15 @@ string Process::Command() {
     return this->cmd;
 }
 
-// TODO: Return this process's memory utilization
-string Process::Ram() { return string(); }
+// Return this process's memory utilization
+string Process::Ram() { 
+    this->ram_usage = LinuxParser::Ram(pid);
+    std::ostringstream oss;
+    oss << std::fixed;
+    oss << std::setprecision(2);
+    oss << this->ram_usage;
+    return oss.str();
+}
 
 // TODO: Return the user (name) that generated this process
 string Process::User() { return string(); }

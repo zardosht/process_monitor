@@ -26,6 +26,7 @@ class Process {
     long uptime {0};
     float cpu_usage {0};
     std::string cmd {""};
+    float ram_usage {0};
 };
 
 #endif
