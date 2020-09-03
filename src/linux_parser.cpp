@@ -177,7 +177,7 @@ std::vector<long> LinuxParser::CpuUtilization(int pid) {
     long value; 
     string dummy;
     linestream >> value >> dummy >> dummy;
-    for (int i = 1; i < 23; i++) {
+    for (int i = 3; i < 23; i++) {
       linestream >> value;
       if(i == 14 || i == 15 || i == 16 || i == 17 || i == 22) {
         values.push_back(value);
